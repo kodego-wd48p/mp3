@@ -1,6 +1,6 @@
 <?php
 // //testing---------------------
-use App\Models\Job;
+// use App\Models\Job;
 
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobSeekerController;
@@ -51,8 +51,8 @@ Route::delete('/jobseeker/{id}', [JobSeekerController::class, 'destroy']);
 
 // // model ,factories, seeder-------------
 
-Route::get('/', function(){
-   return Job::all();
-});
+// Route::get('/', function(){
+//    return Job::all();
+// });
 
 
