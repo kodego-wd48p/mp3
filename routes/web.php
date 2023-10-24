@@ -1,6 +1,6 @@
 <?php
 // //testing---------------------
-// use App\Models\Job;
+use App\Models\Job;
 
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobSeekerController;
