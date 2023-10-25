@@ -1,58 +1,27 @@
 <?php
-// //testing---------------------
-use App\Models\Job;
 
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\JobSeekerController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-//default routes
-Auth::routes(['verify' => true]);
+Route::get('/', [Controllers\ListingController::class, 'index'])
+    ->name('listings.index');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
+Route::get('/new', [Controllers\ListingController::class, 'create'])
+    ->name('listings.create');
 
-Route::get('/', function(){
-    return view('auth.login');
-});
+Route::post('/new', [Controllers\ListingController::class, 'store'])
+    ->name('listings.store');
 
+Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+    return view('dashboard', [
+        'listings' => $request->user()->listings
+    ]);
+})->middleware(['auth'])->name('dashboard');
 
+require __DIR__.'/auth.php';
 
-//routes for the jobs controller
-Route::get('/jobs',[JobController::class, 'index']);
-Route::get('/job/{id}',[JobController::class, 'show']);
-Route::get('/job',[JobController::class, 'create']);
-Route::get('/job/{id}/edit',[JobController::class, 'edit']);
+Route::get('/{listing}', [Controllers\ListingController::class, 'show'])
+    ->name('listings.show');
 
-Route::post('/job', [JobController::class, 'store']);
-Route::put('/job/{id}/edit', [JobController::class, 'update']);
-Route::delete('/job/{id}', [JobController::class, 'destroy']);
-
-//routes for the jobseeker controller
-Route::get('/jobseekers',[JobSeekerController::class, 'index']);
-Route::get('/jobseeker/{id}',[JobSeekerController::class, 'show']);
-Route::get('/jobseeker',[JobSeekerController::class, 'create']);
-Route::get('/jobseeker/{id}/edit',[JobSeekerController::class, 'edit']);
-
-Route::post('/jobseeker', [JobSeekerController::class, 'store']);
-Route::put('/jobseeker/{id}/edit', [JobSeekerController::class, 'update']);
-Route::delete('/jobseeker/{id}', [JobSeekerController::class, 'destroy']);
-
-
-// // model ,factories, seeder-------------
-
-// Route::get('/', function(){
-//    return Job::all();
-// });
-
-
+Route::get('/{listing}/apply', [Controllers\ListingController::class, 'apply'])
+    ->name('listings.apply');
