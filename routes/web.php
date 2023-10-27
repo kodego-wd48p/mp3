@@ -28,7 +28,7 @@ Route::get('/{listing}/apply', [Controllers\ListingController::class, 'apply'])
     ->name('listings.apply');
 
 
-    Route::controller(ImageController::class)->group(function(){
+Route::controller(ImageController::class)->group(function(){
         Route::get('image-upload', 'index');
         Route::post('image-upload', 'store')->name('image.store');
     });
