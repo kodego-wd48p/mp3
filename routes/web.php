@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\ImageController;
 
 Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
@@ -25,3 +26,9 @@ Route::get('/{listing}', [Controllers\ListingController::class, 'show'])
 
 Route::get('/{listing}/apply', [Controllers\ListingController::class, 'apply'])
     ->name('listings.apply');
+
+
+    Route::controller(ImageController::class)->group(function(){
+        Route::get('image-upload', 'index');
+        Route::post('image-upload', 'store')->name('image.store');
+    });
